@@ -1,22 +1,8 @@
-#incorporar comprehensions
-#investigar funcion enumerate
-#el metodo get de los diccionarios puede servir
-#para limpiar la pantalla usar os.system("cls")
-
 import random
+import os
 
 
-def read():
-    words = []
-    with open("./archivos/data.txt", "r", encoding="utf-8") as f:
-        for word in f:
-            words.append(word)
-            #select the random word
-            randomWord = random.choice(words)
-            return randomWord
-
-
-def normalize():
+def normalize(s):
     # It removes the accents of a string
         replacements = (
             ("á", "a"),
@@ -29,9 +15,32 @@ def normalize():
             s = s.replace(a, b).replace(a.upper(), b.upper())
         return s
 
-
 def run ():
-    read()
+    try:
+        
+        words = []
+        with open("./archivos/data.txt", "r", encoding= "utf-8") as f:
+            for word in f:
+                words.append(word)
+                randomWord = random.choice(words)
+                currentWord = list("_" * len(randomWord))
+                while(randomWord != currentWord):
+                    print("Empieza el juego! \n\n")
+                    #currentWord = list("_" * len(randomWord))
+                    print(currentWord)
+                    letter = normalize(input("\n\nIngrese una letra: "))
+                    if letter in currentWord:
+                        randomWord = list(randomWord)
+                        for i,x in enumerate(randomWord):
+                            if x == letter:
+                                currentWord = "".join(currentWord)
+                    os.system("cls")
+                print(f'Ganaste! Tu palabra era {randomWord}')
+
+    except ValueError: 
+        print("Solo debes ingresar letras")
+ 
+    
 
 if __name__ ==  '__main__':
     run()
